@@ -1,30 +1,23 @@
 package com.conarflib.file.configuration;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.prefs.Preferences;
-
-import org.ini4j.Ini;
-import org.ini4j.IniPreferences;
-
 public abstract class PropertiesFile {
-    protected String filePath;
+
     protected boolean loadExceptionWhenPropertyValueIsNull = false;
-    protected File file;
+    private static String ENVIRONMENT_VAR = "CONFIGURATION_FILE_KEY";
 
-    public void list() {
+    public PropertiesFile() {
+    }
 
-        File file = new File("C://Medcloud//config.ini");
+    public void setLoadExceptionWhenPropertyValueIsNull(boolean loadExceptionWhenPropertyValueIsNull) {
+        this.loadExceptionWhenPropertyValueIsNull = loadExceptionWhenPropertyValueIsNull;
+    }
 
-        try {
-            Ini ini = new Ini(file);
-
-            Preferences prefs = new IniPreferences(ini);
-
-            System.out.println("Node: [PAT] : " + prefs.node("PAT").get("database", null));
-        } catch (IOException ioEx) {
-            throw new RuntimeException("Error open file [" + filePath + "] => " + ioEx.getMessage());
-        }
+    protected String checkAndReturnPropertyValue(String propertyName, String propertyValue) {
+        if (this.loadExceptionWhenPropertyValueIsNull && propertyValue == null)
+            throw new NullPointerException(
+                    "Property [ " + propertyName + " ] has null value or not exists in the file!");
+        else
+            return propertyValue;
     }
 
 }
