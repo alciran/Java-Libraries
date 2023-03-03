@@ -3,7 +3,7 @@ package com.conarflib.file.configuration;
 public abstract class PropertiesFile {
 
     protected boolean loadExceptionWhenPropertyValueIsNull = false;
-    private static String ENVIRONMENT_VAR = "CONFIGURATION_FILE_KEY";
+    protected SymmetricCryptService cryptService;
 
     public PropertiesFile() {
     }
