@@ -75,3 +75,6 @@ hs_err_pid*
 
 ### Backup files for test or development ###
 Backup
+
+*.ini
+*.properties

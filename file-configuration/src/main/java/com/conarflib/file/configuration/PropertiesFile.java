@@ -1,23 +1,70 @@
 package com.conarflib.file.configuration;
 
+import java.io.File;
+
+import com.conarflib.file.configuration.exception.PropertiesFileExcepton;
+import com.conarflib.security.SymmetricEncryption;
+
 public abstract class PropertiesFile {
 
-    protected boolean loadExceptionWhenPropertyValueIsNull = false;
-    protected SymmetricCryptService cryptService;
+    private boolean loadExceptionWhenPropertyValueIsNull = false;
+    private static String ENVIRONMENT_VAR = "CONFIGURATION_FILE_KEY";
+    private File configFile;
 
-    public PropertiesFile() {
+    public PropertiesFile(File configFile){
+        this.setConfigFile(configFile);
     }
 
-    public void setLoadExceptionWhenPropertyValueIsNull(boolean loadExceptionWhenPropertyValueIsNull) {
+    private void setConfigFile(File configFile){
+        if(configFile == null)        
+            throw new IllegalArgumentException("Attribute [ configFile ] must not be null!"); 
+        this.configFile = configFile;
+    }
+
+    protected File getConfigFile(){
+        return this.configFile;
+    } 
+    
+    protected void setLoadExceptionWhenPropertyValueIsNull(boolean loadExceptionWhenPropertyValueIsNull) {
         this.loadExceptionWhenPropertyValueIsNull = loadExceptionWhenPropertyValueIsNull;
     }
 
-    protected String checkAndReturnPropertyValue(String propertyName, String propertyValue) {
-        if (this.loadExceptionWhenPropertyValueIsNull && propertyValue == null)
-            throw new NullPointerException(
-                    "Property [ " + propertyName + " ] has null value or not exists in the file!");
-        else
-            return propertyValue;
+    protected boolean getLoadExceptionWhenPropertyValueIsNull(){
+        return this.loadExceptionWhenPropertyValueIsNull;
     }
 
+    protected static String symmetricEncrypt(String value) {
+        return symmetricEncrypt(value, getEnvironmentVariableValue());
+    }
+
+    protected static String symmetricEncrypt(String value, String secretKey) {
+        try {
+            return SymmetricEncryption.encrypt(value, SymmetricEncryption.getKey(secretKey));
+        } catch (Exception exCrypt) {
+            throw new PropertiesFileExcepton("Error on encrypt: " + exCrypt.getMessage());
+        }
+    }
+
+    protected static String symmetricDecrypt(String value) {
+        return symmetricDecrypt(value,null);
+    }
+
+    protected static String symmetricDecrypt(String value, String secretKey) {
+        try {
+            if(secretKey == null)
+                secretKey = getEnvironmentVariableValue();
+            return SymmetricEncryption.decrypt(value, SymmetricEncryption.getKey(secretKey));          
+        } catch (Exception exDecrypt) {
+            throw new PropertiesFileExcepton("Error on decrypt: " + exDecrypt.getMessage());
+        }
+    }
+
+    private static String getEnvironmentVariableValue() {
+        String enviromentVariableValue = System.getenv(ENVIRONMENT_VAR);
+        if (enviromentVariableValue == null || enviromentVariableValue.isEmpty())
+            throw new PropertiesFileExcepton(
+                    "Environment variable [ " + ENVIRONMENT_VAR + " ] not found or null/empty value!");
+        return enviromentVariableValue;
+    }
+    
 }
