@@ -33,6 +33,11 @@ public abstract class PropertiesFile {
         return this.loadExceptionWhenPropertyValueIsNull;
     }
 
+    protected void checkPropertyName(String propertyName){
+        if(propertyName == null || propertyName.isEmpty())
+            throw new IllegalArgumentException("Attribute [ propertyName ] must not be null or empty!");
+    }
+
     protected static String symmetricEncrypt(String value) {
         return symmetricEncrypt(value, getEnvironmentVariableValue());
     }

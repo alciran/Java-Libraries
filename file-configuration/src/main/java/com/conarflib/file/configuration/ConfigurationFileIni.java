@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.ini4j.Ini;
+
 import com.conarflib.file.configuration.exception.PropertiesFileExcepton;
 
 
@@ -17,16 +17,17 @@ public class ConfigurationFileIni extends PropertiesFile {
     public ConfigurationFileIni(File configFile) throws IOException{
         super(configFile);
         this.ini = new Ini(getConfigFile());
-    }   
+    } 
+    
+    public ConfigurationFileIni(File configFile, boolean loadExceptionWhenPropertyValueIsNull) throws IOException{
+        super(configFile);
+        setLoadExceptionWhenPropertyValueIsNull(loadExceptionWhenPropertyValueIsNull);
+        this.ini = new Ini(getConfigFile());
+    } 
 
     private void checkSectionName(String sectionName){
         if(sectionName == null || sectionName.isEmpty())
             throw new IllegalArgumentException("Attribute [ sectionName ] must not be null or empty!");
-    }
-
-    private void checkPropertyName(String propertyName){
-        if(propertyName == null || propertyName.isEmpty())
-            throw new IllegalArgumentException("Attribute [ propertyName ] must not be null or empty!");
     }
 
     private void checkPropertyValue(String propertyName, String propertyValue){
@@ -35,11 +36,15 @@ public class ConfigurationFileIni extends PropertiesFile {
     }
 
     public String getProperty(String sectionName, String propertyName){  
+        return getEncryptedProperty(sectionName, propertyName, null);
+    }
+
+    public String getProperty(String sectionName, String propertyName, String defaultValue){  
         checkSectionName(sectionName);
         checkPropertyName(propertyName);
         String propertyValue = ini.get(sectionName).get(propertyName);         
         checkPropertyValue(propertyName, propertyValue);
-        return propertyValue;
+        return propertyValue == null ? defaultValue : propertyName;
     }
 
     public String getEncryptedProperty(String sectionName, String propertyName){
@@ -54,32 +59,31 @@ public class ConfigurationFileIni extends PropertiesFile {
 
     public Map<String,String> getSectionProperties(String sectionName){
         checkSectionName(sectionName);
-        Map<String,String> map = ini.get(sectionName);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
+        Map<String,String> mapProperties = ini.get(sectionName);
+        for (Map.Entry<String, String> entry : mapProperties.entrySet()) {
             checkPropertyValue(entry.getKey(), entry.getValue());
         }
-        return map;
+        return mapProperties;
     }   
 
     private Map<String,String> getAllEncryptedSection(String sectionName, String secretKey){
-        Map<String,String> map = new HashMap<>();
-        getSectionProperties(sectionName).forEach((key, value) -> map.put(key, symmetricDecrypt(value, secretKey)));
-        return map;            
+        Map<String,String> mapProperties = new HashMap<>();
+        getSectionProperties(sectionName).forEach((key, value) -> mapProperties.put(key, symmetricDecrypt(value, secretKey)));
+        return mapProperties;            
     }    
 
     private Map<String,String> getEncryptedSectionByList(String sectionName, String secretKey, String[] encryptedProperties){
         if(encryptedProperties == null)
             return getAllEncryptedSection(sectionName, secretKey);
         else{
-            List<String> listEncryptedProperties = Arrays.asList(encryptedProperties);
-            Map<String,String> map = new HashMap<>();
+            Map<String,String> mapProperties = new HashMap<>();
             getSectionProperties(sectionName).forEach((key, value) -> {
-                if(listEncryptedProperties.contains(key))
-                    map.put(key, symmetricDecrypt(value, secretKey));
+                if(Arrays.stream(encryptedProperties).anyMatch(key::contains))
+                    mapProperties.put(key, symmetricDecrypt(value, secretKey));
                 else
-                    map.put(key,value);
+                    mapProperties.put(key,value);
             });
-            return map;
+            return mapProperties;
         }           
     }
 
@@ -95,7 +99,7 @@ public class ConfigurationFileIni extends PropertiesFile {
         return getEncryptedSectionByList(sectionName, null, encryptedProperties);
     }
 
-    public Map<String,String> getEncryptedSectionPropertiesByScretKey(String sectionName, String secretKey, String... encryptedProperties){
+    public Map<String,String> getEncryptedSectionPropertiesBySecretKey(String sectionName, String secretKey, String... encryptedProperties){
         return getEncryptedSectionByList(sectionName, secretKey, encryptedProperties);        
     }
 
