@@ -10,16 +10,16 @@ import java.util.Properties;
 
 import com.conarflib.file.configuration.exception.PropertiesFileExcepton;
 
-public class ConfigurationFileProperties extends PropertiesFile {
+public class PropertiesConfigurationFile extends PropertiesFile {
 
     private static Properties properties = new Properties();
     
-    public ConfigurationFileProperties(File configFile) throws IOException{
+    public PropertiesConfigurationFile(File configFile) throws IOException{
         super(configFile);
         setProperties();
     }
 
-    public ConfigurationFileProperties(File configFile, boolean loadExceptionWhenPropertyValueIsNull) throws IOException {
+    public PropertiesConfigurationFile(File configFile, boolean loadExceptionWhenPropertyValueIsNull) throws IOException {
         super(configFile);
         setLoadExceptionWhenPropertyValueIsNull(loadExceptionWhenPropertyValueIsNull);
         setProperties();
@@ -61,10 +61,8 @@ public class ConfigurationFileProperties extends PropertiesFile {
             throw new PropertiesFileExcepton("Attribute [ properties ] must not be null");
         
         Map<String, String> mapProperties = new HashMap<>();
-        for (String property : properties) {
-            mapProperties.put(property, getProperty(property));
-        }
-
+        Arrays.stream(properties).forEach(property -> mapProperties.put(property, getProperty(property)));
+        
         return mapProperties;
     }
 

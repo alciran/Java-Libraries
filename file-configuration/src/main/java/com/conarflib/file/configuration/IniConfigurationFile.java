@@ -10,16 +10,16 @@ import org.ini4j.Ini;
 import com.conarflib.file.configuration.exception.PropertiesFileExcepton;
 
 
-public class ConfigurationFileIni extends PropertiesFile {
+public class IniConfigurationFile extends PropertiesFile {
 
     private Ini ini;    
 
-    public ConfigurationFileIni(File configFile) throws IOException{
+    public IniConfigurationFile(File configFile) throws IOException{
         super(configFile);
         this.ini = new Ini(getConfigFile());
     } 
     
-    public ConfigurationFileIni(File configFile, boolean loadExceptionWhenPropertyValueIsNull) throws IOException{
+    public IniConfigurationFile(File configFile, boolean loadExceptionWhenPropertyValueIsNull) throws IOException{
         super(configFile);
         setLoadExceptionWhenPropertyValueIsNull(loadExceptionWhenPropertyValueIsNull);
         this.ini = new Ini(getConfigFile());
