@@ -10,8 +10,9 @@
 
     <modules>
         <module>util</module>
-		<module>file-configuration</module>
+		<module>config-file</module>
 		<module>security</module>
+		<module>web</module>
     </modules>
 
 </project>
