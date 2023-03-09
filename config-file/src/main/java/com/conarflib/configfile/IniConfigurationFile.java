@@ -7,11 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.ini4j.Ini;
 
-<<<<<<< HEAD:file-configuration/src/main/java/com/conarflib/file/configuration/IniConfigurationFile.java
-=======
-import com.conarflib.configfile.exception.PropertiesFileExcepton;
-
->>>>>>> b3937a6 (Rename module from file-configuration to config-file, and adjusted the path class name):config-file/src/main/java/com/conarflib/configfile/IniConfigurationFile.java
 public class IniConfigurationFile extends PropertiesFile {
 
     private Ini ini;
@@ -27,26 +22,15 @@ public class IniConfigurationFile extends PropertiesFile {
         this.ini = new Ini(getConfigFile());
     }
 
-<<<<<<< HEAD:file-configuration/src/main/java/com/conarflib/file/configuration/IniConfigurationFile.java
-    private void checkSectionName(String sectionName){
-        if(sectionName == null || sectionName.isEmpty())
-            throw new NullPointerException("Attribute [ sectionName ] must not be null or empty!");
-    }
-
-    private void checkPropertyValue(String propertyName, String propertyValue){
-        if(this.getLoadExceptionWhenPropertyValueIsNull() && propertyValue == null)
-            throw new NullPointerException("Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
-=======
     private void checkSectionName(String sectionName) {
         if (sectionName == null || sectionName.isEmpty())
-            throw new IllegalArgumentException("Attribute [ sectionName ] must not be null or empty!");
+            throw new NullPointerException("Attribute [ sectionName ] must not be null or empty!");
     }
 
     private void checkPropertyValue(String propertyName, String propertyValue) {
         if (this.getLoadExceptionWhenPropertyValueIsNull() && propertyValue == null)
-            throw new PropertiesFileExcepton(
+            throw new NullPointerException(
                     "Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
->>>>>>> b3937a6 (Rename module from file-configuration to config-file, and adjusted the path class name):config-file/src/main/java/com/conarflib/configfile/IniConfigurationFile.java
     }
 
     public String getProperty(String sectionName, String propertyName) {
