@@ -1,8 +1,8 @@
-package com.conarflib.file.configuration;
+package com.conarflib.configfile;
 
 import java.io.File;
 
-import com.conarflib.file.configuration.exception.PropertiesFileExcepton;
+import com.conarflib.configfile.exception.PropertiesFileExcepton;
 import com.conarflib.security.SymmetricEncryption;
 
 public abstract class PropertiesFile {
@@ -11,30 +11,30 @@ public abstract class PropertiesFile {
     private static String ENVIRONMENT_VAR = "CONFIGURATION_FILE_KEY";
     private File configFile;
 
-    public PropertiesFile(File configFile){
+    public PropertiesFile(File configFile) {
         this.setConfigFile(configFile);
     }
 
-    private void setConfigFile(File configFile){
-        if(configFile == null)        
-            throw new NullPointerException("Attribute [ configFile ] must not be null!"); 
+    private void setConfigFile(File configFile) {
+        if (configFile == null)
+            throw new NullPointerException("Attribute [ configFile ] must not be null!");
         this.configFile = configFile;
     }
 
-    protected File getConfigFile(){
+    protected File getConfigFile() {
         return this.configFile;
-    } 
-    
+    }
+
     protected void setLoadExceptionWhenPropertyValueIsNull(boolean loadExceptionWhenPropertyValueIsNull) {
         this.loadExceptionWhenPropertyValueIsNull = loadExceptionWhenPropertyValueIsNull;
     }
 
-    protected boolean getLoadExceptionWhenPropertyValueIsNull(){
+    protected boolean getLoadExceptionWhenPropertyValueIsNull() {
         return this.loadExceptionWhenPropertyValueIsNull;
     }
 
-    protected void checkPropertyName(String propertyName){
-        if(propertyName == null || propertyName.isEmpty())
+    protected void checkPropertyName(String propertyName) {
+        if (propertyName == null || propertyName.isEmpty())
             throw new NullPointerException("Attribute [ propertyName ] must not be null or empty!");
     }
 
@@ -51,14 +51,14 @@ public abstract class PropertiesFile {
     }
 
     protected static String symmetricDecrypt(String value) {
-        return symmetricDecrypt(value,null);
+        return symmetricDecrypt(value, null);
     }
 
     protected static String symmetricDecrypt(String value, String secretKey) {
         try {
-            if(secretKey == null)
+            if (secretKey == null)
                 secretKey = getEnvironmentVariableValue();
-            return SymmetricEncryption.decrypt(value, SymmetricEncryption.getKey(secretKey));          
+            return SymmetricEncryption.decrypt(value, SymmetricEncryption.getKey(secretKey));
         } catch (Exception exDecrypt) {
             throw new PropertiesFileExcepton("Error on decrypt: " + exDecrypt.getMessage());
         }
@@ -71,5 +71,5 @@ public abstract class PropertiesFile {
                     "Environment variable [ " + ENVIRONMENT_VAR + " ] not found or null/empty value!");
         return enviromentVariableValue;
     }
-    
+
 }
