@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.ini4j.Ini;
 
-import com.conarflib.file.configuration.exception.PropertiesFileExcepton;
-
-
 public class IniConfigurationFile extends PropertiesFile {
 
     private Ini ini;    
@@ -27,12 +24,12 @@ public class IniConfigurationFile extends PropertiesFile {
 
     private void checkSectionName(String sectionName){
         if(sectionName == null || sectionName.isEmpty())
-            throw new IllegalArgumentException("Attribute [ sectionName ] must not be null or empty!");
+            throw new NullPointerException("Attribute [ sectionName ] must not be null or empty!");
     }
 
     private void checkPropertyValue(String propertyName, String propertyValue){
         if(this.getLoadExceptionWhenPropertyValueIsNull() && propertyValue == null)
-            throw new PropertiesFileExcepton("Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
+            throw new NullPointerException("Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
     }
 
     public String getProperty(String sectionName, String propertyName){  

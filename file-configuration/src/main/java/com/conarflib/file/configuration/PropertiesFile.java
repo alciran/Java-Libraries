@@ -17,7 +17,7 @@ public abstract class PropertiesFile {
 
     private void setConfigFile(File configFile){
         if(configFile == null)        
-            throw new IllegalArgumentException("Attribute [ configFile ] must not be null!"); 
+            throw new NullPointerException("Attribute [ configFile ] must not be null!"); 
         this.configFile = configFile;
     }
 
@@ -35,7 +35,7 @@ public abstract class PropertiesFile {
 
     protected void checkPropertyName(String propertyName){
         if(propertyName == null || propertyName.isEmpty())
-            throw new IllegalArgumentException("Attribute [ propertyName ] must not be null or empty!");
+            throw new NullPointerException("Attribute [ propertyName ] must not be null or empty!");
     }
 
     protected static String symmetricEncrypt(String value) {
@@ -67,7 +67,7 @@ public abstract class PropertiesFile {
     private static String getEnvironmentVariableValue() {
         String enviromentVariableValue = System.getenv(ENVIRONMENT_VAR);
         if (enviromentVariableValue == null || enviromentVariableValue.isEmpty())
-            throw new PropertiesFileExcepton(
+            throw new NullPointerException(
                     "Environment variable [ " + ENVIRONMENT_VAR + " ] not found or null/empty value!");
         return enviromentVariableValue;
     }

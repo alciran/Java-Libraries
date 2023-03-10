@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import com.conarflib.file.configuration.exception.PropertiesFileExcepton;
-
 public class PropertiesConfigurationFile extends PropertiesFile {
 
     private static Properties properties = new Properties();
@@ -32,7 +30,7 @@ public class PropertiesConfigurationFile extends PropertiesFile {
 
     private void checkPropertyValue(String propertyName, String propertyValue){
         if(this.getLoadExceptionWhenPropertyValueIsNull() && propertyValue == null)
-            throw new PropertiesFileExcepton("Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
+            throw new NullPointerException("Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
     }
 
     public String getProperty(String propertyName){
@@ -58,7 +56,7 @@ public class PropertiesConfigurationFile extends PropertiesFile {
 
     public Map<String, String> getProperties(String... properties){
         if(properties == null)
-            throw new PropertiesFileExcepton("Attribute [ properties ] must not be null");
+            throw new NullPointerException("Attribute [ properties ] must not be null");
         
         Map<String, String> mapProperties = new HashMap<>();
         Arrays.stream(properties).forEach(property -> mapProperties.put(property, getProperty(property)));
