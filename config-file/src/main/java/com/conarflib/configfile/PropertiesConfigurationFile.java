@@ -8,11 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-<<<<<<< HEAD:file-configuration/src/main/java/com/conarflib/file/configuration/PropertiesConfigurationFile.java
-=======
-import com.conarflib.configfile.exception.PropertiesFileExcepton;
-
->>>>>>> 87c0cf6c0f5acaab8d66c2153e058918bc1eba99:config-file/src/main/java/com/conarflib/configfile/PropertiesConfigurationFile.java
 public class PropertiesConfigurationFile extends PropertiesFile {
 
     private static Properties properties = new Properties();
@@ -34,16 +29,9 @@ public class PropertiesConfigurationFile extends PropertiesFile {
         properties.load(streamConfigFile);
     }
 
-<<<<<<< HEAD:file-configuration/src/main/java/com/conarflib/file/configuration/PropertiesConfigurationFile.java
     private void checkPropertyValue(String propertyName, String propertyValue){
         if(this.getLoadExceptionWhenPropertyValueIsNull() && propertyValue == null)
             throw new NullPointerException("Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
-=======
-    private void checkPropertyValue(String propertyName, String propertyValue) {
-        if (this.getLoadExceptionWhenPropertyValueIsNull() && propertyValue == null)
-            throw new PropertiesFileExcepton(
-                    "Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
->>>>>>> 87c0cf6c0f5acaab8d66c2153e058918bc1eba99:config-file/src/main/java/com/conarflib/configfile/PropertiesConfigurationFile.java
     }
 
     public String getProperty(String propertyName) {
@@ -67,17 +55,10 @@ public class PropertiesConfigurationFile extends PropertiesFile {
         return symmetricDecrypt(propertyValue, secretKey);
     }
 
-<<<<<<< HEAD:file-configuration/src/main/java/com/conarflib/file/configuration/PropertiesConfigurationFile.java
     public Map<String, String> getProperties(String... properties){
         if(properties == null)
             throw new NullPointerException("Attribute [ properties ] must not be null");
         
-=======
-    public Map<String, String> getProperties(String... properties) {
-        if (properties == null)
-            throw new PropertiesFileExcepton("Attribute [ properties ] must not be null");
-
->>>>>>> 87c0cf6c0f5acaab8d66c2153e058918bc1eba99:config-file/src/main/java/com/conarflib/configfile/PropertiesConfigurationFile.java
         Map<String, String> mapProperties = new HashMap<>();
         Arrays.stream(properties).forEach(property -> mapProperties.put(property, getProperty(property)));
 

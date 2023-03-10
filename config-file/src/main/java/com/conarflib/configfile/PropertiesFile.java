@@ -15,15 +15,9 @@ public abstract class PropertiesFile {
         this.setConfigFile(configFile);
     }
 
-<<<<<<< HEAD:file-configuration/src/main/java/com/conarflib/file/configuration/PropertiesFile.java
     private void setConfigFile(File configFile){
         if(configFile == null)        
             throw new NullPointerException("Attribute [ configFile ] must not be null!"); 
-=======
-    private void setConfigFile(File configFile) {
-        if (configFile == null)
-            throw new IllegalArgumentException("Attribute [ configFile ] must not be null!");
->>>>>>> 87c0cf6c0f5acaab8d66c2153e058918bc1eba99:config-file/src/main/java/com/conarflib/configfile/PropertiesFile.java
         this.configFile = configFile;
     }
 
@@ -39,15 +33,9 @@ public abstract class PropertiesFile {
         return this.loadExceptionWhenPropertyValueIsNull;
     }
 
-<<<<<<< HEAD:file-configuration/src/main/java/com/conarflib/file/configuration/PropertiesFile.java
     protected void checkPropertyName(String propertyName){
         if(propertyName == null || propertyName.isEmpty())
             throw new NullPointerException("Attribute [ propertyName ] must not be null or empty!");
-=======
-    protected void checkPropertyName(String propertyName) {
-        if (propertyName == null || propertyName.isEmpty())
-            throw new IllegalArgumentException("Attribute [ propertyName ] must not be null or empty!");
->>>>>>> 87c0cf6c0f5acaab8d66c2153e058918bc1eba99:config-file/src/main/java/com/conarflib/configfile/PropertiesFile.java
     }
 
     protected static String symmetricEncrypt(String value) {
