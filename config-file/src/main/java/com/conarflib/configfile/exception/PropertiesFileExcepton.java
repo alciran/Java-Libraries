@@ -1,9 +1,15 @@
-package com.conarflib.file.configuration.exception;
+package com.conarflib.configfile.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Exception class thrown when an error occurs while using the configuration
+ * file implementation.
+ * 
+ * @author Alciran Franco
+ */
 @Getter
 @Setter
 @AllArgsConstructor

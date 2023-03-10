@@ -3,16 +3,15 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.conarflib</groupId>
-	<artifactId>conarf-java-module</artifactId>
+    <groupId>com.conarflib.web</groupId>
+	<artifactId>web</artifactId>
     <version>0.1.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>util</module>
-		<module>config-file</module>
-		<module>security</module>
-		<module>web</module>
+        <module>soap-client</module>
+		<module>apirest-client</module>
+		<module>http</module>
     </modules>
 
 </project>
