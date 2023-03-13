@@ -1,6 +1,6 @@
 package com.conarflib.http;
 
-public enum HttpRequestMethod {
+public enum HttpMethod {
     CONNECT,
     DELETE,
     GET,
