@@ -59,7 +59,6 @@ public class PropertiesConfigurationFile extends PropertiesFile {
     public Map<String, String> getProperties(String... properties) {
         if (properties == null)
             throw new NullPointerException("Attribute [ properties ] must not be null");
-
         Map<String, String> mapProperties = new HashMap<>();
         Arrays.stream(properties).forEach(property -> mapProperties.put(property, getProperty(property)));
 

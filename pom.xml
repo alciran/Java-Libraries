@@ -13,6 +13,7 @@
 		<module>config-file</module>
 		<module>security</module>
 		<module>web</module>
+        <module>database</module>
     </modules>
 
 </project>
