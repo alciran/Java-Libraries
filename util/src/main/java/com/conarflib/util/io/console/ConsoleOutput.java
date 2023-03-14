@@ -75,7 +75,7 @@ public final class ConsoleOutput {
     }
 
     public static String printIgnored(String message) {
-        return "[ " + getYellowBold("IGNORED") + " ] " + message;
+        return "[ " + getCyanBold("IGNORED") + " ] " + message;
     }
 
     public static String getBlack(String text) {
