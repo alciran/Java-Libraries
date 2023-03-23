@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.conarflib.troubleshooter.model.ExecutationInfo;
-import com.conarflib.troubleshooter.model.TaskStatus;
+import com.conarflib.troubleshooter.task.TaskStatusHandler;
 import com.conarflib.troubleshooter.taskgroup.RelationalDatabaseTaskGroup;
 import com.conarflib.util.io.console.ConsoleOutput;
 
-public class TroubleshooterCommandLine extends ExecutationInfo {
+public class TroubleshooterCommandLine implements TaskStatusHandler {
+
+    private ExecutationInfo executationInfo;
+    private String messageActualTask;
+
+    public TroubleshooterCommandLine() {
+        this.executationInfo = new ExecutationInfo();
+    }
 
     private static void loadInitialMessage() {
         System.out.println(ConsoleOutput.getBlue(" Troubleshooter Command Line - Version: 0.0.1 "));
@@ -22,23 +29,33 @@ public class TroubleshooterCommandLine extends ExecutationInfo {
 
     private void printFinalResults() {
         System.out.println("\n-----------------------------------------------------------------------------");
-        System.out.println("Total Tasks: " + this.getTotalTasksExecuted() + " => "
-                + ConsoleOutput.getGreenBackground(String.valueOf(" " + getTotalTasksExecuted() + " ")) + " Pass, "
-                + ConsoleOutput.getRedBackground(String.valueOf(" " + getTotalTasksExecuted() + " ")) + " Fail, "
-                + ConsoleOutput.getYellowBackground(String.valueOf(" " + getTotalTasksWarning() + " ")) + " Warning, "
-                + ConsoleOutput.getCyanBackground(String.valueOf(" " + getTotalTasksIgnored() + " ")) + " Ignored");
+        System.out.println("Total Tasks executed: " + executationInfo.getTotalTasksExecuted() + " => "
+                + ConsoleOutput.getGreenBackground(String.valueOf(" " + executationInfo.getTotalTasksSuccess() + " "))
+                + " Pass, "
+                + ConsoleOutput.getRedBackground(String.valueOf(" " + executationInfo.getTotalTasksFail() + " "))
+                + " Fail, "
+                + ConsoleOutput.getYellowBackground(String.valueOf(" " + executationInfo.getTotalTasksWarning() + " "))
+                + " Warning, "
+                + ConsoleOutput.getCyanBackground(String.valueOf(" " + executationInfo.getTotalTasksIgnored() + " "))
+                + " Ignored");
         System.out.println("-----------------------------------------------------------------------------");
-        System.out.println("Total time: " + getTotalTime() + " milliseconds");
+        System.out.println("Total time: " + executationInfo.getTotalTime() + " milliseconds");
 
-        System.out.println("Finished at: " + getFinishedAtFormat("dd/MM/yyyy HH:mm:ss"));
+        System.out.println("Finished at: " + executationInfo.getFinishedAtFormat("dd/MM/yyyy HH:mm:ss"));
         System.out.println("-----------------------------------------------------------------------------");
     }
 
+    private static final void printGroupDescription(String description) {
+        // print description group tasks => blue
+        System.out.println(ConsoleOutput
+                .getBlue("\n## [ " + ConsoleOutput.getBlue(description) + ConsoleOutput.getBlue(" ]")));
+    }
+
     public void exec() {
-        this.startCounterTime();
+        executationInfo.startCounterTime();
         loadInitialMessage();
         execTasks();
-        this.stopCounterTime();
+        executationInfo.stopCounterTime();
         this.printFinalResults();
     }
 
@@ -46,42 +63,47 @@ public class TroubleshooterCommandLine extends ExecutationInfo {
         List<TroubleshooterTaskGroup> groups = getGroups();
         if (groups != null && !groups.isEmpty()) {
             groups.forEach(group -> {
-                group.startCounterTime();
-                System.out.println(ConsoleOutput
-                        .getBlue("\n## [ " + ConsoleOutput.getBlue(group.description()) + ConsoleOutput.getBlue(" ]")));
-                group.generateTasks().forEach(task -> {
+                printGroupDescription(group.description());
+                group.tasks().forEach(task -> {
+                    group.startCounterTime();
+                    group.handlerStatusTask(task.getStatus());
+                    group.stopCounterTime();
+                    executationInfo.loadedTask();
+                    executationInfo.handlerStatusTask(task.getStatus());
+                    this.messageActualTask = task.getMessage();
+                    this.handlerStatusTask(task.getStatus());
 
-                    TaskStatus status = task.getStatus();
-                    group.loadTask(status);
-                    this.loadTask(status);
-
-                    if (status.equals(TaskStatus.SUCCESS))
-                        System.out
-                                .println(ConsoleOutput
-                                        .getGreenBackground(String.valueOf(" " + group.getTotalTasksExecuted() + " "))
-                                        + ConsoleOutput.printSuccess(task.getMessage()));
-                    else if (status.equals(TaskStatus.FAIL))
-                        System.out
-                                .println(ConsoleOutput
-                                        .getRedBackground(String.valueOf(" " + group.getTotalTasksExecuted() + " "))
-                                        + ConsoleOutput.printError(task.getMessage()));
-                    else if (status.equals(TaskStatus.WARNING))
-                        System.out
-                                .println(
-                                        ConsoleOutput.getYellowBackground(
-                                                String.valueOf(" " + group.getTotalTasksExecuted() + " "))
-                                                + ConsoleOutput.printWarning(task.getMessage()));
-                    else if (status.equals(TaskStatus.IGNORED))
-                        System.out
-                                .println(
-                                        ConsoleOutput.getCyanBackground(
-                                                String.valueOf(" " + group.getTotalTasksExecuted() + " "))
-                                                + ConsoleOutput.printIgnored(task.getMessage()));
-                }
-
-                );
+                });
             });
         }
+    }
+
+    @Override
+    public void taskWithStatusSucess() {
+        System.out.println(ConsoleOutput
+                .getGreenBackground(String.valueOf(" " + executationInfo.getTotalTasksExecuted() + " "))
+                + ConsoleOutput.printSuccess(this.messageActualTask));
+    }
+
+    @Override
+    public void taskWithStatusFail() {
+        System.out.println(ConsoleOutput
+                .getRedBackground(String.valueOf(" " + executationInfo.getTotalTasksExecuted() + " "))
+                + ConsoleOutput.printError(this.messageActualTask));
+    }
+
+    @Override
+    public void taskWithStatusWarning() {
+        System.out.println(ConsoleOutput
+                .getYellowBackground(String.valueOf(" " + executationInfo.getTotalTasksExecuted() + " "))
+                + ConsoleOutput.printWarning(this.messageActualTask));
+    }
+
+    @Override
+    public void taskWithStatusIgnored() {
+        System.out.println(ConsoleOutput
+                .getCyanBackground(String.valueOf(" " + executationInfo.getTotalTasksExecuted() + " "))
+                + ConsoleOutput.printIgnored(this.messageActualTask));
     }
 
 }

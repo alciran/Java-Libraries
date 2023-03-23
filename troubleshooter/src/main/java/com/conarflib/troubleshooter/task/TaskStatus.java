@@ -1,4 +1,4 @@
-package com.conarflib.troubleshooter.model;
+package com.conarflib.troubleshooter.task;
 
 public enum TaskStatus {
     SUCCESS,
