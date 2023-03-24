@@ -2,7 +2,7 @@ package com.conarflib.troubleshooter.task;
 
 public interface TaskStatusHandler {
 
-    void taskWithStatusSucess();
+    abstract void taskWithStatusSucess();
 
     void taskWithStatusFail();
 

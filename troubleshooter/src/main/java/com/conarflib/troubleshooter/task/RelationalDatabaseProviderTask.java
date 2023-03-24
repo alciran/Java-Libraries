@@ -12,7 +12,7 @@ import com.conarflib.database.relational.RelationalDatabase;
 public class RelationalDatabaseProviderTask {
 
     public static final TroubleshooterTask databaseStructureHost(String host) {
-        String taskName = "Check structure database host.";
+        String taskName = "Check host";
         if (host == null)
             return new TroubleshooterTask(taskName, TaskStatus.IGNORED, "No database host provided to task...");
         else {
@@ -28,7 +28,7 @@ public class RelationalDatabaseProviderTask {
     }
 
     public static TroubleshooterTask checkConnection(DataSourceConfig dataSourceConfig) {
-        String taskName = "Check database connection.";
+        String taskName = "Check connection";
         if (dataSourceConfig == null)
             return new TroubleshooterTask(taskName, TaskStatus.IGNORED, "No DataSourceConfig provided to task...");
         else {
@@ -45,7 +45,7 @@ public class RelationalDatabaseProviderTask {
     }
 
     public static TroubleshooterTask getDatabaseObject(DataSourceConfig dataSourceConfig, String databaseObject) {
-        String taskName = "Test get database object.";
+        String taskName = "Check object";
         if (dataSourceConfig == null || databaseObject == null)
             return new TroubleshooterTask(taskName, TaskStatus.IGNORED,
                     "No DatasourceConfig and/or database object provided to task...");
@@ -71,7 +71,7 @@ public class RelationalDatabaseProviderTask {
     }
 
     public static TroubleshooterTask getSchema(DataSourceConfig dataSourceConfig, String schema) {
-        String taskName = "Check database schema.";
+        String taskName = "Check schema";
         if (dataSourceConfig == null || schema == null)
             return new TroubleshooterTask(taskName, TaskStatus.IGNORED,
                     "No DatasourceConfig and/or schema provided to task...");

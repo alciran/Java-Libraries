@@ -1,11 +1,9 @@
 package com.conarflib.troubleshooter.model;
 
-import com.conarflib.troubleshooter.task.TaskStatusHandler;
-
 import lombok.Getter;
 
 @Getter
-public class ExecutationInfo extends TimeCounter implements TaskStatusHandler {
+public class ExecutationInfo extends TimeCounter {
 
     private int totalTasksExecuted;
     private int totalTasksSuccess;
@@ -13,28 +11,24 @@ public class ExecutationInfo extends TimeCounter implements TaskStatusHandler {
     private int totalTasksWarning;
     private int totalTasksIgnored;
 
-    @Override
-    public void taskWithStatusSucess() {
+    public void taskSuccess() {
+        totalTasksExecuted++;
         totalTasksSuccess++;
     }
 
-    @Override
-    public void taskWithStatusFail() {
+    public void taskFail() {
+        totalTasksExecuted++;
         totalTasksFail++;
     }
 
-    @Override
-    public void taskWithStatusWarning() {
+    public void taskWarning() {
+        totalTasksExecuted++;
         totalTasksWarning++;
     }
 
-    @Override
-    public void taskWithStatusIgnored() {
-        totalTasksIgnored++;
-    }
-
-    public void loadedTask() {
+    public void taskIgnored() {
         totalTasksExecuted++;
+        totalTasksIgnored++;
     }
 
 }

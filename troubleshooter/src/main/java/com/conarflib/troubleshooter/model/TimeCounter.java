@@ -3,9 +3,6 @@ package com.conarflib.troubleshooter.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import lombok.Getter;
-
-@Getter
 public class TimeCounter {
     private Date startDate;
     private Date stopDate;
@@ -23,11 +20,19 @@ public class TimeCounter {
     }
 
     public Long getTotalTime() {
-        return (this.getStopCounterTime() - this.getStartCounterTime());
+        return (this.stopCounterTime - this.startCounterTime);
     }
 
-    public String getFinishedAtFormat(String format) {
+    public String getFinishedDateAtFormat(String format) {
         if (this.stopDate != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat(format);
+            return formatter.format(this.stopDate);
+        } else
+            return null;
+    }
+
+    public String getStartDateAtFormat(String format) {
+        if (this.startDate != null) {
             SimpleDateFormat formatter = new SimpleDateFormat(format);
             return formatter.format(this.stopDate);
         } else
