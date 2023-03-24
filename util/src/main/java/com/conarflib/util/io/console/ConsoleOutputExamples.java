@@ -3,12 +3,14 @@ package com.conarflib.util.io.console;
 public class ConsoleOutputExamples {
 
     public static void printExamples() {
-        System.out.println(ConsoleOutput.printSuccess("printSuccess(String message)"));
-        System.out.println(ConsoleOutput.printError("printError(String message)"));
-        System.out.println(ConsoleOutput.printWarning("printWarning(String message)"));
-        System.out.println(ConsoleOutput.printIgnored("printIgnored(String message)"));
-        System.out.println(ConsoleOutput.printInfoBlue("printInfoBlue(String message)"));
-        System.out.println(ConsoleOutput.printInfoCyan("printInfoCyan(String message)"));
+        ConsoleOutput.printSuccess("printSuccess(String message)");
+        ConsoleOutput.printOk("printOk(String message)");
+        ConsoleOutput.printError("printError(String message)");
+        ConsoleOutput.printFail("printFail(String message)");
+        ConsoleOutput.printWarning("printWarning(String message)");
+        ConsoleOutput.printIgnored("printIgnored(String message)");
+        ConsoleOutput.printInfoBlue("printInfoBlue(String message)");
+        ConsoleOutput.printInfoCyan("printInfoCyan(String message)");
 
         System.out.println(ConsoleOutput.getGreen("green! => getGreen(String text)"));
         System.out.println(ConsoleOutput.getRed("red! => getRed(String text)"));

@@ -22,8 +22,12 @@ public final class ConsoleOutput {
         return ConsoleColors.GREEN_BACKGROUND + text + ConsoleColors.RESET;
     }
 
-    public static String printSuccess(String message) {
-        return "[ " + getGreenBold("OK") + " ] " + message;
+    public static void printSuccess(String message) {
+        System.out.println("[ " + getGreenBold("SUCCESS") + " ] " + message);
+    }
+
+    public static void printOk(String message) {
+        System.out.println("[   " + getGreenBold("OK ") + "   ] " + message);
     }
 
     public static String getRed(String text) {
@@ -46,8 +50,12 @@ public final class ConsoleOutput {
         return ConsoleColors.RED_BACKGROUND + text + ConsoleColors.RESET;
     }
 
-    public static String printError(String message) {
-        return "[ " + getRedBold("ERROR") + " ] " + message;
+    public static void printError(String message) {
+        System.out.println("[  " + getRedBold("ERROR") + "  ] " + message);
+    }
+
+    public static String printFail(String message) {
+        return "[  " + getRedBold("FAIL ") + "  ] " + message;
     }
 
     public static String getYellow(String text) {
@@ -70,12 +78,12 @@ public final class ConsoleOutput {
         return ConsoleColors.YELLOW_BACKGROUND + text + ConsoleColors.RESET;
     }
 
-    public static String printWarning(String message) {
-        return "[ " + getYellowBold("WARNING") + " ] " + message;
+    public static void printWarning(String message) {
+        System.out.println("[ " + getYellowBold("WARNING") + " ] " + message);
     }
 
-    public static String printIgnored(String message) {
-        return "[ " + getCyanBold("IGNORED") + " ] " + message;
+    public static void printIgnored(String message) {
+        System.out.println("[ " + getCyanBold("IGNORED") + " ] " + message);
     }
 
     public static String getBlack(String text) {
@@ -118,8 +126,8 @@ public final class ConsoleOutput {
         return ConsoleColors.BLUE_BACKGROUND + text + ConsoleColors.RESET;
     }
 
-    public static String printInfoBlue(String message) {
-        return "[ " + getBlueBold("INFO") + " ] " + message;
+    public static void printInfoBlue(String message) {
+        System.out.println("[  " + getBlueBold("INFO") + "   ] " + message);
     }
 
     public static String getCyan(String text) {
@@ -142,8 +150,8 @@ public final class ConsoleOutput {
         return ConsoleColors.CYAN_BACKGROUND + text + ConsoleColors.RESET;
     }
 
-    public static String printInfoCyan(String message) {
-        return "[ " + getCyanBold("INFO") + " ] " + message;
+    public static void printInfoCyan(String message) {
+        System.out.println("[  " + getCyanBold("INFO") + "   ] " + message);
     }
 
     public static String getPurple(String text) {
