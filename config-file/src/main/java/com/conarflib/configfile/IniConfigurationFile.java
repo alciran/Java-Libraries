@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.ini4j.Ini;
+
 public class IniConfigurationFile extends PropertiesFile {
 
     private Ini ini;
@@ -21,14 +22,15 @@ public class IniConfigurationFile extends PropertiesFile {
         this.ini = new Ini(getConfigFile());
     }
 
-    private void checkSectionName(String sectionName){
-        if(sectionName == null || sectionName.isEmpty())
+    private void checkSectionName(String sectionName) {
+        if (sectionName == null || sectionName.isEmpty())
             throw new NullPointerException("Attribute [ sectionName ] must not be null or empty!");
     }
 
-    private void checkPropertyValue(String propertyName, String propertyValue){
-        if(this.getLoadExceptionWhenPropertyValueIsNull() && propertyValue == null)
-            throw new NullPointerException("Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
+    private void checkPropertyValue(String propertyName, String propertyValue) {
+        if (this.getLoadExceptionWhenPropertyValueIsNull() && propertyValue == null)
+            throw new NullPointerException(
+                    "Property [ " + propertyName + " ] not found in file " + getConfigFile().getPath());
     }
 
     public String getProperty(String sectionName, String propertyName) {

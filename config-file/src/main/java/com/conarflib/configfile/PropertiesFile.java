@@ -15,9 +15,9 @@ public abstract class PropertiesFile {
         this.setConfigFile(configFile);
     }
 
-    private void setConfigFile(File configFile){
-        if(configFile == null)        
-            throw new NullPointerException("Attribute [ configFile ] must not be null!"); 
+    private void setConfigFile(File configFile) {
+        if (configFile == null)
+            throw new NullPointerException("Attribute [ configFile ] must not be null!");
         this.configFile = configFile;
     }
 
@@ -33,8 +33,8 @@ public abstract class PropertiesFile {
         return this.loadExceptionWhenPropertyValueIsNull;
     }
 
-    protected void checkPropertyName(String propertyName){
-        if(propertyName == null || propertyName.isEmpty())
+    protected void checkPropertyName(String propertyName) {
+        if (propertyName == null || propertyName.isEmpty())
             throw new NullPointerException("Attribute [ propertyName ] must not be null or empty!");
     }
 
